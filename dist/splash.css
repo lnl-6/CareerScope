@@ -1,0 +1,173 @@
+@property --progress {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+.splash-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* 1. 中心线条扩散 */
+.lines {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+
+.line {
+  position: absolute;
+  background: #d1d5db;
+}
+
+.line-h {
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  transform: translateX(-50%);
+  animation: splash-expand-h 0.4s ease-out forwards;
+}
+
+.line-v {
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 0;
+  transform: translateY(-50%);
+  animation: splash-expand-v 0.4s ease-out forwards;
+}
+
+@keyframes splash-expand-h {
+  to { width: 200px; }
+}
+
+@keyframes splash-expand-v {
+  to { height: 200px; }
+}
+
+/* 2. 细圆环 + 扫描线 */
+.ring-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  animation: splash-ring-in 0.15s ease 0.35s forwards;
+}
+
+@keyframes splash-ring-in {
+  to { opacity: 1; }
+}
+
+.ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: conic-gradient(
+    from -90deg,
+    #2563eb 0deg,
+    #2563eb var(--progress, 0deg),
+    transparent var(--progress, 0deg),
+    transparent 360deg
+  );
+  -webkit-mask: radial-gradient(
+    circle,
+    transparent 0px,
+    transparent 57px,
+    #000 58px,
+    #000 60px,
+    transparent 61px
+  );
+  mask: radial-gradient(
+    circle,
+    transparent 0px,
+    transparent 57px,
+    #000 58px,
+    #000 60px,
+    transparent 61px
+  );
+  animation: splash-sweep-fill 0.8s ease-out 0.4s forwards;
+}
+
+.sweep {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 50%;
+  transform-origin: bottom center;
+  background: linear-gradient(to top, transparent, #2563eb);
+  animation: splash-sweep-rotate 0.8s ease-out 0.38s forwards;
+}
+
+@keyframes splash-sweep-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes splash-sweep-fill {
+  from { --progress: 0deg; }
+  to { --progress: 360deg; }
+}
+
+/* 3. 标题淡入 */
+.brand {
+  color: #1a1a1a;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: splash-title-in 0.4s ease 0.7s forwards;
+}
+
+.brand .dot {
+  margin: 0 8px;
+  color: #9ca3af;
+}
+
+@keyframes splash-title-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 整体淡出 */
+#splash.done {
+  pointer-events: none;
+  animation: splash-out 0.4s ease forwards;
+}
+
+@keyframes splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #splash { display: none; }
+}

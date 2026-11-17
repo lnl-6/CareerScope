@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>职途罗盘 · CareerScope</title>
+  <meta name="description" content="职途罗盘 · CareerScope：聚合公开渠道的实习与校招岗位，按方向筛选，一键记录投递进度。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="职途罗盘 · CareerScope">
+  <meta property="og:title" content="职途罗盘 · CareerScope">
+  <meta property="og:description" content="聚合公开渠道的实习与校招岗位，按方向筛选，一键记录投递进度。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="职途罗盘 · CareerScope">
+  <meta name="twitter:description" content="聚合公开渠道的实习与校招岗位，按方向筛选，一键记录投递进度。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f766e'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M38 26l-4 12-12 5 5-12z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="splash.css">
+  <link rel="stylesheet" href="ui-refresh.css">
+</head>
+<body>
+  <div id="splash">
+    <div class="splash-inner">
+      <div class="lines">
+        <span class="line line-h"></span>
+        <span class="line line-v"></span>
+      </div>
+      <div class="ring-wrap">
+        <div class="ring"></div>
+        <div class="sweep"></div>
+      </div>
+      <div class="brand">职途罗盘<span class="dot">·</span>CareerScope</div>
+    </div>
+  </div>
+  <noscript><style>#splash{display:none}</style></noscript>
+  <div style="background-color:#FFFFFF" class="app-shell" id="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="侧边导航">
+      <nav class="side-nav" id="sidebar-nav">
+        <button type="button" class="nav-item is-active" data-view="explore" data-active="true" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <span class="nav-label">岗位</span>
+        </button>
+        <button type="button" class="nav-item" data-view="board" data-active="false">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4.5V3h6v1.5"></path><path d="M9 9h6"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg>
+          <span class="nav-label">投递</span>
+        </button>
+        <button type="button" class="nav-item" data-view="me" data-active="false">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c.6-3.4 3.4-5.5 7-5.5s6.4 2.1 7 5.5"></path></svg>
+          <span class="nav-label">我的</span>
+        </button>
+      </nav>
+    </aside>
+
+    <div class="content-shell">
+      <header class="topbar">
+        <h1 class="topbar-title" id="topbar-title"><span class="topbar-brand">职途罗盘 · </span><span id="topbar-view">岗位</span></h1>
+        <span class="topbar-right">职途罗盘 · CareerScope</span>
+      </header>
+
+      <main>
+        <section class="view notfound-view" id="view-notfound" hidden>
+          <div class="notfound-card">
+            <p class="notfound-code">404</p>
+            <h2>找不到这个页面</h2>
+            <p class="lede">链接可能已失效，或地址拼写有误。</p>
+            <a class="button" href="/">返回首页</a>
+          </div>
+        </section>
+
+        <section class="view admin-auth-view" id="view-admin-auth" hidden>
+          <div class="admin-auth-card">
+            <h2>管理后台</h2>
+            <p class="lede">请输入管理员令牌后继续。</p>
+            <form class="form-stack" id="admin-auth-form">
+              <label class="field">
+                <span class="filter-label">管理令牌</span>
+                <input type="password" id="admin-token" class="select" placeholder="请输入管理令牌" autocomplete="current-password" required>
+              </label>
+              <button type="submit" class="button" id="admin-auth-submit">进入管理后台</button>
+            </form>
+            <div class="notice" id="admin-auth-notice" hidden></div>
+            <p class="panel-hint">令牌仅保存在当前浏览器会话中，关闭浏览器后需重新输入。</p>
+          </div>
+        </section>
+
+        <section class="view" id="view-explore">
+          <header class="hero" id="explore-hero" aria-labelledby="hero-title">
+            <div class="hero__text">
+              <h2 class="hero__title" id="hero-title">实习就业雷达</h2>
+              <p class="hero__desc">聚合公开渠道的实习与校招岗位，按方向筛选，一键记录投递进度。</p>
+            </div>
+            <div class="hero__actions">
+              <button type="button" class="btn btn--primary" data-hero-type="intern">找实习</button>
+              <button type="button" class="btn" data-hero-type="campus">找校招</button>
+            </div>
+          </header>
+
+          <div class="notice" id="explore-notice" hidden></div>
+
+          <div class="explore-topbar">
+            <div class="segmented job-type-tabs" id="job-type-tabs" role="tablist" aria-label="岗位类型">
+              <button type="button" class="is-active" data-job-type="intern" role="tab" aria-selected="true">实习</button>
+              <button type="button" data-job-type="campus" role="tab" aria-selected="false">校招</button>
+            </div>
+            <button type="button" class="filter-trigger" id="filter-toggle" aria-expanded="false" aria-controls="explore-criteria-panel">筛选 <span aria-hidden="true">▾</span></button>
+            <span class="filter-selected">已选：<span id="explore-criteria-summary">全部</span></span>
+            <button type="button" class="filter-clear" id="filter-clear" hidden>× 清空筛选</button>
+            <input type="search" class="explore-search" id="explore-search" placeholder="搜索公司、岗位、关键词" aria-label="搜索公司、岗位、关键词" autocomplete="off">
+          </div>
+
+          <section class="panel criteria-panel" id="explore-criteria-panel" hidden>
+            <div class="panel-head">
+              <h2>筛选条件</h2>
+              <span class="panel-hint">点击卡片设置条件，岗位列表会实时更新</span>
+              <button type="button" class="icon-button criteria-close" id="filter-close" aria-label="关闭筛选">×</button>
+            </div>
+            <div class="card-body">
+              <div class="cond-grid" id="explore-cards"></div>
+            </div>
+          </section>
+
+          <section class="panel" id="explore-results-panel">
+            <div class="panel-head">
+              <h2>匹配岗位</h2>
+              <span class="panel-hint" id="explore-results-summary">—</span>
+            </div>
+            <div class="card-body">
+              <div class="explore-jobs job-list" id="explore-jobs"></div>
+              <button type="button" class="btn more-btn" id="explore-more" hidden>加载更多</button>
+              <div class="list-sentinel" id="explore-sentinel" aria-hidden="true"></div>
+            </div>
+          </section>
+
+          <button type="button" class="back-to-top" id="back-to-top" hidden>↑ 顶部</button>
+
+          <button type="button" class="next-step" id="explore-next">查看我的投递</button>
+        </section>
+
+        <section class="view" id="view-collect" hidden>
+          <div class="page-head">
+            <div class="head-text">
+              <h2 class="page-title">数据采集</h2>
+            </div>
+            <div class="head-metric">
+              <span>已入库岗位</span>
+              <strong id="collect-confirmed">—</strong>
+            </div>
+          </div>
+          <p class="admin-quota" data-admin-quota>今日剩余解析次数：— / —</p>
+
+          <div class="notice" id="collect-notice" hidden></div>
+          <div class="notice" id="collect-llm" hidden></div>
+          <div class="loading-line" id="collect-loading" hidden></div>
+
+          <div class="reparse-bar" id="reparse-bar" hidden>
+            <span id="reparse-text"></span>
+            <button type="button" class="button ghost mini" id="collect-reparse">继续解析</button>
+          </div>
+
+          <div class="collect-progress" id="collect-progress" hidden>
+            <div class="progress"><span id="collect-bar" style="width:0%"></span></div>
+            <div class="collect-progress-head">
+              <p class="panel-hint" id="collect-step">准备中…</p>
+              <button type="button" class="button ghost mini" id="collect-cancel" hidden>停止</button>
+            </div>
+            <p class="collect-summary" id="collect-summary"></p>
+            <ul class="inline-log" id="collect-log"></ul>
+            <div class="collect-progress-actions">
+              <button type="button" class="button ghost mini" id="collect-retry" hidden>重试未解析</button>
+            </div>
+          </div>
+
+          <div class="panel" id="collect-sources-panel">
+            <div class="panel-head">
+              <h2>数据来源</h2>
+              <span class="panel-hint" id="collect-sources-summary"></span>
+            </div>
+            <div class="card-body">
+              <div class="segmented" id="source-tabs" role="tablist" aria-label="来源类型">
+                <button type="button" class="is-active" data-source-tab="official" role="tab" aria-selected="true">官方招聘平台</button>
+                <button type="button" data-source-tab="public" role="tab" aria-selected="false">公开渠道</button>
+              </div>
+              <div id="collect-sources" class="source-list"></div>
+              <div class="collect-add-row" id="source-add-public" hidden>
+                <label class="field grow">
+                  <span class="filter-label">公开渠道列表页地址</span>
+                  <input type="url" id="source-url" class="select" maxlength="300" placeholder="https://example.com/jobs/">
+                </label>
+                <button type="button" class="button ghost mini" id="source-discover">预览岗位链接</button>
+                <button type="button" class="button mini" id="source-add" disabled>添加地址</button>
+              </div>
+              <div id="source-preview" class="source-preview" hidden></div>
+              <div class="collect-runner">
+                <label class="field">
+                  <span class="filter-label">目标条数</span>
+                  <select id="collect-target" class="select">
+                    <option value="20" selected>20 条</option>
+                    <option value="50">50 条</option>
+                    <option value="100">100 条</option>
+                  </select>
+                </label>
+                <button type="button" class="button" id="collect-run" disabled>开始采集</button>
+                <span class="panel-hint" id="collect-estimate"></span>
+                <span class="llm-line">解析模型：<strong id="collect-model">—</strong>
+                  <button type="button" class="button ghost mini" id="llm-test">测试连接</button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="next-step" id="collect-next">查看岗位库</button>
+        </section>
+
+        <section class="view" id="view-board" hidden>
+          <div class="page-head">
+            <div class="head-text">
+              <h2 class="page-title">投递追踪</h2>
+              <p class="lede">点击岗位的「投递」会自动记录在这里；记录保存在当前浏览器对应的匿名设备上。</p>
+            </div>
+            <div class="page-actions">
+              <button type="button" class="button ghost mini" id="tracking-export">导出记录</button>
+              <button type="button" class="button mini" id="tracking-manual-add">+ 手动添加</button>
+            </div>
+          </div>
+
+          <div class="notice" id="tracking-notice" hidden></div>
+          <div class="loading-line" id="tracking-loading" hidden></div>
+
+          <div class="state" id="tracking-empty" hidden></div>
+
+          <section class="panel board-section" id="section-tracking-favorites">
+            <div class="panel-head">
+              <h2>收藏 / 待投递</h2>
+              <span class="panel-hint" id="favorites-summary"></span>
+              <button type="button" class="button ghost mini" id="favorites-export">导出收藏 JSON</button>
+            </div>
+            <div class="card-body">
+              <p class="panel-hint" id="favorites-hint"></p>
+              <div class="explore-jobs" id="favorites-list"></div>
+            </div>
+          </section>
+
+          <section class="panel board-section" id="section-tracking-active">
+            <div class="panel-head">
+              <h2>进行中</h2>
+              <span class="panel-hint" id="tracking-active-count"></span>
+            </div>
+            <div class="card-body">
+              <div class="board-cards" id="tracking-active-list"></div>
+            </div>
+          </section>
+
+          <section class="panel board-section" id="section-tracking-closed">
+            <div class="panel-head">
+              <h2>已结束</h2>
+              <span class="panel-hint" id="tracking-closed-count"></span>
+            </div>
+            <div class="card-body">
+              <div class="board-cards" id="tracking-closed-list"></div>
+            </div>
+          </section>
+
+          <button type="button" class="next-step" id="tracking-next">去岗位库投递</button>
+        </section>
+
+        <section class="view" id="view-me" hidden>
+          <div class="page-head">
+            <div class="head-text">
+              <h2 class="page-title">我的</h2>
+              <p class="lede">投递与收藏以匿名设备标识保存在当前浏览器。</p>
+            </div>
+          </div>
+          <div class="notice" id="me-notice" hidden></div>
+
+          <section class="panel me-local-panel">
+            <div class="panel-head">
+              <h2>本机数据</h2>
+              <span class="panel-hint">换设备或清理浏览器后记录不会自动同步</span>
+            </div>
+            <div class="card-body">
+              <p class="device-line">设备标识：<code id="me-device-id">—</code></p>
+              <div class="me-actions">
+                <button type="button" class="button ghost mini" id="me-export-favorites">导出收藏 JSON</button>
+                <button type="button" class="button ghost mini" id="me-open-board">打开投递追踪</button>
+                <a class="button ghost mini" href="/admin" id="me-admin-entry" hidden>管理后台</a>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-experiments" hidden>
+          <div class="page-head">
+            <div class="head-text">
+              <h2 class="page-title">解析实验</h2>
+              <p class="lede">对比候选模型或 Prompt 版本的字段级解析效果，运行统一消耗站点额度。</p>
+            </div>
+          </div>
+          <p class="admin-quota" data-admin-quota>今日剩余解析次数：— / —</p>
+
+          <div class="notice" id="experiment-notice" hidden></div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <div class="panel-head"><h2>样本集导入</h2></div>
+              <p class="panel-hint">支持 .json（{"samples": [...]}）或 .csv（含 raw_text 列），每条需包含 company 与 position 标注；单次 10–100 条。使用站点额度运行时单次最多 20 条。</p>
+              <form class="form-stack" id="sample-form">
+                <label class="field">
+                  <span class="filter-label">样本集文件</span>
+                  <input type="file" id="sample-file" accept=".json,.csv" class="select" required>
+                </label>
+                <label class="field">
+                  <span class="filter-label">样本集名称（可选）</span>
+                  <input type="text" id="sample-name" class="select" placeholder="默认按时间自动命名">
+                </label>
+                <button type="submit" class="button">上传并创建样本集</button>
+              </form>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>新建实验</h2></div>
+              <p class="panel-hint" id="experiment-quota">解析实验统一使用站点 LLM 额度，每日限量。</p>
+              <form class="form-stack" id="experiment-form">
+                <label class="field">
+                  <span class="filter-label">样本集</span>
+                  <select id="experiment-sample-set" class="select" required></select>
+                </label>
+                <label class="field">
+                  <span class="filter-label">实验类型</span>
+                  <select id="experiment-kind" class="select">
+                    <option value="model_comparison">模型对比</option>
+                    <option value="prompt_comparison">提示词对比</option>
+                  </select>
+                </label>
+                <div class="field" id="model-field">
+                  <span class="filter-label">候选模型</span>
+                  <div id="experiment-models" class="check-row"></div>
+                </div>
+                <div class="field" id="prompt-field" hidden>
+                  <span class="filter-label">Prompt 版本（旧 → 新）</span>
+                  <div class="check-row">
+                    <select id="experiment-old-version" class="select"></select>
+                    <select id="experiment-new-version" class="select"></select>
+                  </div>
+                </div>
+                <div class="check-row">
+                  <label class="field">
+                    <span class="filter-label">temperature</span>
+                    <input type="number" id="experiment-temperature" class="select" value="0" min="0" max="2" step="0.1">
+                  </label>
+                  <label class="field">
+                    <span class="filter-label">max_tokens</span>
+                    <input type="number" id="experiment-max-tokens" class="select" value="2048" min="128" max="8192" step="128">
+                  </label>
+                </div>
+                <button type="submit" class="button">创建实验</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>从已入库岗位生成样本集</h2>
+              <button type="button" class="button mini" id="export-sample-set">生成样本集</button>
+            </div>
+            <p class="panel-hint">把已入库、且保留原始抓取文本的岗位转为标注样本，用于模型对比；生成后可在「新建实验」中选择。</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2>实验列表</h2></div>
+            <div id="experiment-list" class="experiment-list"></div>
+          </div>
+
+          <div class="panel" id="experiment-detail-panel" hidden>
+            <div class="panel-head">
+              <h2 id="experiment-detail-title">实验结果</h2>
+              <div class="panel-actions">
+                <button type="button" class="button ghost mini" id="download-report">下载 Markdown 报告</button>
+                <button type="button" class="button ghost mini" id="close-detail">收起</button>
+              </div>
+            </div>
+            <div id="experiment-detail"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2>Prompt 版本</h2></div>
+            <p class="panel-hint">「设为当前」立即生效，影响后续采集解析与实验。</p>
+            <div class="table-wrap">
+              <table class="board-table">
+                <thead>
+                  <tr>
+                    <th scope="col">版本</th>
+                    <th scope="col">触发原因</th>
+                    <th scope="col">few-shot 数</th>
+                    <th scope="col">准确率提升</th>
+                    <th scope="col">创建时间</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="prompt-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <nav class="tabbar" id="tabbar" aria-label="底部导航">
+      <button type="button" class="tab-item is-active" data-view="explore" data-active="true" aria-selected="true">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <span class="tab-label">岗位</span>
+      </button>
+      <button type="button" class="tab-item" data-view="board" data-active="false" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4.5V3h6v1.5"></path><path d="M9 9h6"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg>
+        <span class="tab-label">投递</span>
+      </button>
+      <button type="button" class="tab-item" data-view="me" data-active="false" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c.6-3.4 3.4-5.5 7-5.5s6.4 2.1 7 5.5"></path></svg>
+        <span class="tab-label">我的</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="filter-backdrop" id="filter-backdrop" hidden></div>
+
+  <div class="modal-backdrop" id="manual-modal" hidden>
+    <form class="modal manual-modal" id="manual-form" role="dialog" aria-modal="true" aria-labelledby="manual-title">
+      <header class="pick-head">
+        <h2 id="manual-title">手动添加投递</h2>
+        <button type="button" class="icon-button" id="manual-close" aria-label="关闭">×</button>
+      </header>
+      <p class="manual-form-hint">岗位名、公司名、投递链接至少填写两项；链接需为 http/https 地址。</p>
+      <div class="manual-form-grid">
+        <label class="field">
+          <span>岗位名</span>
+          <input class="manual-input" id="manual-position" type="text" maxlength="120" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>公司名</span>
+          <input class="manual-input" id="manual-company" type="text" maxlength="120" autocomplete="off">
+        </label>
+        <label class="field manual-form-grid__wide">
+          <span>投递链接</span>
+          <input class="manual-input" id="manual-url" type="url" maxlength="1000" placeholder="https://...">
+        </label>
+        <label class="field">
+          <span>当前状态</span>
+          <select class="select" id="manual-status">
+            <option value="saved">已收藏</option>
+            <option value="to_apply">待投递</option>
+            <option value="applied" selected>已投递</option>
+            <option value="written_exam">笔试</option>
+            <option value="interview">面试</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">挂掉</option>
+            <option value="expired">已截止</option>
+          </select>
+        </label>
+        <label class="field manual-form-grid__wide">
+          <span>备注</span>
+          <textarea class="manual-input manual-textarea" id="manual-notes" maxlength="500" rows="3" placeholder="面试时间、HR 邮箱等"></textarea>
+        </label>
+      </div>
+      <div class="notice" id="manual-notice" hidden></div>
+      <footer class="modal-actions">
+        <button type="button" class="button ghost" id="manual-cancel">取消</button>
+        <button type="submit" class="button" id="manual-submit">添加</button>
+      </footer>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="pick-modal" hidden>
+    <div class="modal pick-modal" role="dialog" aria-modal="true" aria-labelledby="pick-title">
+      <header class="pick-head">
+        <h2 id="pick-title">选择条件</h2>
+        <button type="button" class="icon-button" id="pick-close" aria-label="关闭">×</button>
+      </header>
+      <input type="search" class="select pick-search" id="pick-search" placeholder="搜索选项" autocomplete="off">
+      <div class="pick-body" id="pick-body"></div>
+      <div class="pick-extra" id="pick-extra" hidden></div>
+      <footer class="modal-actions">
+        <button type="button" class="button ghost" id="pick-clear">清空</button>
+        <button type="button" class="button ghost" id="pick-cancel">取消</button>
+        <button type="button" class="button" id="pick-confirm">确定</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+  <script>
+    (function () {
+      var splash = document.getElementById("splash");
+      if (!splash) return;
+      if (sessionStorage.getItem("splash-seen")) {
+        splash.remove();
+        return;
+      }
+      setTimeout(function () {
+        splash.classList.add("done");
+        setTimeout(function () { splash.remove(); }, 450);
+      }, 1500);
+      sessionStorage.setItem("splash-seen", "1");
+    })();
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

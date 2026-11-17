@@ -1,0 +1,17 @@
+# 本地凭据
+.admin-token
+.env
+.env.*
+
+# Qoder 站点绑定与编辑器状态
+.InternRadar.qoder.site
+.qoder/
+
+# 本地采集数据与测试产物
+data/
+dev/*.log
+dev/*-2026-*.json
+
+# 系统临时文件
+.DS_Store
+Thumbs.db
